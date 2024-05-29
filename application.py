@@ -34,7 +34,7 @@ def summary(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-10' }
 
   req = urllib.request.Request(url, body, headers)
 
@@ -83,13 +83,13 @@ def performance(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-10' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
       print("inside try")
-      #response = urllib.request.urlopen(req, timeout=30)
+      #response = urllib.request.urlopen(req, timeout=500)
       response = urllib.request.urlopen(req)
       #time.sleep(30)
       print("Waited for 30 sec")
