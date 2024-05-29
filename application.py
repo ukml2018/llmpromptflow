@@ -4,6 +4,7 @@ import json
 import urllib
 import ssl
 import os
+import time
 
 app = Flask(__name__)
 
@@ -39,6 +40,7 @@ def summary(store_id):
 
   try:
       response = urllib.request.urlopen(req)
+      time.sleep(80)
       result = response.read()
       print(result)
       return result
@@ -88,6 +90,8 @@ def performance(store_id):
   try:
       print("inside try")
       response = urllib.request.urlopen(req)
+      time.sleep(30)
+      print("Waited for 30 sec")
       result = response.read()
       print(result)
       return result
