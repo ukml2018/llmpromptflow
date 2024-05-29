@@ -89,7 +89,7 @@ def performance(store_id):
 
   try:
       print("inside try")
-      response = urllib.request.urlopen(req, timeout=60)
+      response = urllib.request.urlopen(req, timeout=30)
       #response = urllib.request.urlopen(req)
       #time.sleep(30)
       print("Waited for 30 sec")
