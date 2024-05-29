@@ -40,7 +40,7 @@ def summary(store_id):
 
   try:
       response = urllib.request.urlopen(req)
-      time.sleep(80)
+      #time.sleep(80)
       result = response.read()
       print(result)
       return result
