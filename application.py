@@ -100,7 +100,7 @@ def performance(store_id):
   except urllib.error.HTTPError as error:
       try:
         print("inside except try")
-        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-4' }
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
         req = urllib.request.Request(url, body, headers)  
         response = urllib.request.urlopen(req)
         result = response.read()
