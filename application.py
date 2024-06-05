@@ -83,13 +83,13 @@ def performance(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
       print("inside try")
-      response = urllib.request.urlopen(req, timeout=60)
+      response = urllib.request.urlopen(req, timeout=300)
       #time.sleep(30)
       print("Waited for 30 sec")
       result = response.read()
@@ -112,7 +112,45 @@ def performance(store_id):
         print(error.info())
         print(error.read().decode("utf8", 'ignore'))
         return jsonify({'error': 'Failed to get performance information from Azure ML endpoint'}), 500
+#Himanshu's endpoint call
+@app.route('/datalookup/<userdata>', methods=['GET'])
+def datalookup(userdata):
+  #p=allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
+  ssl._create_default_https_context = ssl._create_unverified_context
+  print(userdata)
+  data = {"user_query": userdata}
 
+  body = str.encode(json.dumps(data))
+  print(body)
+
+  url = 'https://aml-imperialbrand-chat-db.uksouth.inference.ml.azure.com/score'
+  # Replace this with the primary/secondary key, AMLToken, or Microsoft Entra ID token for the endpoint
+  api_key = '2VVlUsXPIL05ppt88DXVmphAbTx7d4Ac'
+  if not api_key:
+      raise Exception("A key should be provided to invoke the endpoint")
+
+  # The azureml-model-deployment header will force the request to go to a specific deployment.
+  # Remove this header to have the request observe the endpoint traffic rules
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-chat-db-3' }
+
+  req = urllib.request.Request(url, body, headers)
+
+  try:
+      print("inside try")
+      response = urllib.request.urlopen(req)
+      #time.sleep(30)
+      print("Waited for 30 sec")
+      result = response.read()
+      print(result)
+      return result
+        
+  except urllib.error.HTTPError as error:
+        print("inside except")
+        print("The request failed with status code: " + str(error.code))
+        # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
+        print(error.info())
+        return(error.read().decode("utf8", 'ignore'))
+        #return jsonify({'error': 'Failed to get data from data look up service'}), 500
 #Sasanka's code
 @app.route('/conversationalAI', methods=['GET'])
 def conversationalAI():
@@ -222,7 +260,7 @@ def distribution(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
 
   req = urllib.request.Request(url, body, headers)
 
@@ -233,11 +271,21 @@ def distribution(store_id):
       return result
       
   except urllib.error.HTTPError as error:
-      print("The request failed with status code: " + str(error.code))
-    # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
-      print(error.info())
-      print(error.read().decode("utf8", 'ignore'))
-      return jsonify({'error': 'Failed to get distribution information from Azure ML endpoint'}), 500
+      try:
+        print("inside except try")
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-4' }
+        req = urllib.request.Request(url, body, headers)  
+        response = urllib.request.urlopen(req)
+        result = response.read()
+        print(result)
+        return result
+      except urllib.error.HTTPError as error:
+        print("inside except")
+        print("The request failed with status code: " + str(error.code))
+        # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
+        print(error.info())
+        print(error.read().decode("utf8", 'ignore'))
+        return jsonify({'error': 'Failed to get distribution information from Azure ML endpoint'}), 500      
 
 @app.route('/shelfavailability/<store_id>', methods=['GET'])
 def shelfavailability(store_id):
