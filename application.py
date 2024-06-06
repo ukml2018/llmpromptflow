@@ -238,7 +238,7 @@ def distribution(store_id):
         print("inside except try")
         headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-4' }
         req = urllib.request.Request(url, body, headers)  
-        response = urllib.request.urlopen(req,timeout=500)
+        response = urllib.request.urlopen(req)
         result = response.read()
         print(result)
         return result
