@@ -209,7 +209,7 @@ def distribution(store_id):
   ssl._create_default_https_context = ssl._create_unverified_context
   print(store_id)
   data = {
-    "category": "Distribution",
+    "category": "distribution",
     "outlet":store_id
   }
 
