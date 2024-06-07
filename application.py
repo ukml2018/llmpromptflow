@@ -20,26 +20,25 @@ def summary(store_id):
   ssl._create_default_https_context = ssl._create_unverified_context
   print(store_id)
   data = {
-    "category": "Summary",
-    "outlet":store_id
+     "outlet":store_id
   }
 
   body = str.encode(json.dumps(data))
 
-  url = 'https://aml-imperialbrand-ib.uksouth.inference.ml.azure.com/score'
+  url = 'https://aml-imperialbrand-summary.uksouth.inference.ml.azure.com/score'
   # Replace this with the primary/secondary key, AMLToken, or Microsoft Entra ID token for the endpoint
-  api_key = 'NtpIyqtbgohBK0CmbUfzsEhhbvzzJzLG'
+  api_key = 'dqyLJHOncG1Cl149lhO3Dvl3K8ExzaUy'
   if not api_key:
       raise Exception("A key should be provided to invoke the endpoint")
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-summary-1' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
-      response = urllib.request.urlopen(req)
+      response = urllib.request.urlopen(req,timeout=500)
       #time.sleep(80)
       result = response.read()
       print(result)
@@ -213,6 +212,7 @@ def distribution(store_id):
   req = urllib.request.Request(url, body, headers)
 
   try:
+      print("Inside try Distribution 1")
       response = urllib.request.urlopen(req,timeout=500)
       result = response.read()
       print(result)
