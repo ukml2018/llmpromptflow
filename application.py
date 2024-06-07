@@ -34,13 +34,13 @@ def summary(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
       response = urllib.request.urlopen(req)
-      time.sleep(80)
+      #time.sleep(80)
       result = response.read()
       print(result)
       return result
@@ -83,13 +83,14 @@ def performance(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-16' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
       print("inside try")
-      response = urllib.request.urlopen(req, timeout=300)
+      response = urllib.request.urlopen(req, timeout=500)
+      #response = urllib.request.urlopen(req)
       #time.sleep(30)
       print("Waited for 30 sec")
       result = response.read()
@@ -99,7 +100,7 @@ def performance(store_id):
   except urllib.error.HTTPError as error:
       try:
         print("inside except try")
-        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-4' }
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
         req = urllib.request.Request(url, body, headers)  
         response = urllib.request.urlopen(req)
         result = response.read()
@@ -187,66 +188,13 @@ def conversationalAI():
       print(error.read().decode("utf8", 'ignore'))
       return jsonify({'error': 'Failed to get ConversationalAL flow information from Azure ML endpoint'}), 500
 
-#@app.route('/performance/<outlet>', methods=['POST'])
-@app.route('/performance_old', methods=['POST'])
-def performance_old():
-    # Check the Content-Type header
-    if request.headers['Content-Type'] != 'application/json':
-        return jsonify({'error': 'Request must have Content-Type: application/json'}), 400
-   
-    # Get the input parameter from the request
-    try:
-      input_data = request.get_json()
-      #parameter = input_data['parameter']
-      if 'outlet' not in input_data:
-            return jsonify({'error': 'Request must contain a "parameter" field'}), 400
-      outlet = input_data['outlet']
-    except (KeyError, TypeError):
-      return jsonify({'error': 'Request must contain a valid JSON payload with a "parameter" field'}), 400
-    # Prepare the request data for the Azure ML endpoint
-    '''
-    data = {
-        "data": [
-            {
-                "parameter": parameter
-            }
-        ]
-    }
-    '''
-    data =  {
-                "outlet": "Esso Tankstelle outlet"
-            }
-    '''
-    data =  {
-                "outlet": outlet
-            }
-    '''
-    print(data)
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AZURE_ML_KEY}',
-        'azureml-model-deployment': 'aml-imperialbrand-ib-4' 
-    }
-    print(headers)
-    # Call the Azure ML endpoint
-    print(AZURE_ML_ENDPOINT)
-    response = requests.post(AZURE_ML_ENDPOINT, headers=headers, data=json.dumps(data) )
-    print(response.status_code)
-    # Check the response status code
-    if response.status_code == 200:
-        # Return the prediction result
-        return jsonify(response.json())
-    else:
-        # Return an error message
-        return jsonify({'error': 'Failed to get performance information from Azure ML endpoint'}), 500
-
 @app.route('/distribution/<store_id>', methods=['GET'])
 def distribution(store_id):
   #p=allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
   ssl._create_default_https_context = ssl._create_unverified_context
   print(store_id)
   data = {
-    "category": "Distribution",
+    "category": "distribution",
     "outlet":store_id
   }
 
@@ -260,12 +208,12 @@ def distribution(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-12' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-16' }
 
   req = urllib.request.Request(url, body, headers)
 
   try:
-      response = urllib.request.urlopen(req)
+      response = urllib.request.urlopen(req,timeout=500)
       result = response.read()
       print(result)
       return result
@@ -273,7 +221,7 @@ def distribution(store_id):
   except urllib.error.HTTPError as error:
       try:
         print("inside except try")
-        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-4' }
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
         req = urllib.request.Request(url, body, headers)  
         response = urllib.request.urlopen(req)
         result = response.read()
@@ -285,7 +233,7 @@ def distribution(store_id):
         # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
         print(error.info())
         print(error.read().decode("utf8", 'ignore'))
-        return jsonify({'error': 'Failed to get distribution information from Azure ML endpoint'}), 500      
+        return jsonify({'error': 'Failed to get distribution information from Azure ML endpoint'}), 500
 
 @app.route('/shelfavailability/<store_id>', methods=['GET'])
 def shelfavailability(store_id):
