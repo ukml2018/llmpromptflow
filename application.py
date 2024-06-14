@@ -82,7 +82,7 @@ def performance(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-20' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-21' }
 
   req = urllib.request.Request(url, body, headers)
 
@@ -99,7 +99,7 @@ def performance(store_id):
   except urllib.error.HTTPError as error:
       try:
         print("inside except try")
-        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-8' }
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-16' }
         req = urllib.request.Request(url, body, headers)  
         response = urllib.request.urlopen(req)
         result = response.read()
@@ -207,7 +207,7 @@ def distribution(store_id):
 
   # The azureml-model-deployment header will force the request to go to a specific deployment.
   # Remove this header to have the request observe the endpoint traffic rules
-  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-20' }
+  headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-21' }
 
   req = urllib.request.Request(url, body, headers)
 
@@ -221,7 +221,7 @@ def distribution(store_id):
   except urllib.error.HTTPError as error:
       try:
         print("inside except try")
-        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-17' }
+        headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aml-imperialbrand-ib-19' }
         req = urllib.request.Request(url, body, headers)  
         response = urllib.request.urlopen(req)
         result = response.read()
